@@ -96,7 +96,7 @@ class RWKV_TimeMix_x051a(nn.Module):
         elif T % 128 == 0: Q = 128
         else:
             Q = T
-            warnings.warn(f'\n{"#"*80}\n\n{" "*38}Note\nThe GPT-mode forward() should only be called when we are training models.\nNow we are using it for inference for simplicity, which works, but will be very inefficient.\n\n{"#"*80}\n')
+            # warnings.warn(f'\n{"#"*80}\n\n{" "*38}Note\nThe GPT-mode forward() should only be called when we are training models.\nNow we are using it for inference for simplicity, which works, but will be very inefficient.\n\n{"#"*80}\n')
         assert T % Q == 0
 
         xx = self.time_shift(x) - x

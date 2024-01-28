@@ -281,7 +281,7 @@ while True:
         param_group['lr'] = lr
 
     # Calculate perplexity
-    gen_x = torch.tensor([meta["stoi"][i] for i in start]).tile(batch_size, 1).to(device)
+    gen_x = torch.tensor([0]).tile(batch_size, 1).to(device)
     _, ppl = model.generate(gen_x, sample_length)
     # evaluate the loss on train/val sets and write checkpoints
     if iter_num % eval_interval == 0 and master_process:
