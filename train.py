@@ -131,19 +131,16 @@ if os.path.exists(meta_path):
     meta_vocab_size = meta['vocab_size']
     print(f"found vocab_size = {meta_vocab_size} (inside {meta_path})")
 
-mtype = np.uint16 if meta_vocab_size > 256 else np.uint8
 
-train_data = np.memmap(os.path.join(data_dir, 'train.bin'), dtype=mtype, mode='r')
-val_data = np.memmap(os.path.join(data_dir, 'val.bin'), dtype=mtype, mode='r')
 if datafile_encoding == 'binidx':
     meta_vocab_size = 65536
     train_data = MMapIndexedDataset(f'{data_dir}/minipile')
     os.environ['VOCAB_SIZE'] = "65536"
     train_data = Dataset(train_data, config['block_size'], config['max_iters'])
 else:
-    train_data = np.memmap(os.path.join(data_dir, 'train.bin'), dtype=np.uint16, mode='r')
-    val_data = np.memmap(os.path.join(data_dir, 'val.bin'), dtype=np.uint16, mode='r')
-
+    mtype = np.uint16 if meta_vocab_size > 256 else np.uint8
+    train_data = np.memmap(os.path.join(data_dir, 'train.bin'), dtype=mtype, mode='r')
+    val_data = np.memmap(os.path.join(data_dir, 'val.bin'), dtype=mtype, mode='r')
 
 
 def get_batch(split):
