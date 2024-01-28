@@ -96,7 +96,7 @@ class RWKV_TimeMix_x051a(nn.Module):
         elif T % 128 == 0: Q = 128
         else:
             Q = T
-            warnings.warn(f'\n{"#"*80}\n\n{" "*38}Note\nThe GPT-mode forward() should only be called when we are training models.\nNow we are using it for inference for simplicity, which works, but will be very inefficient.\n\n{"#"*80}\n')
+            # warnings.warn(f'\n{"#"*80}\n\n{" "*38}Note\nThe GPT-mode forward() should only be called when we are training models.\nNow we are using it for inference for simplicity, which works, but will be very inefficient.\n\n{"#"*80}\n')
         assert T % Q == 0
 
         xx = self.time_shift(x) - x
@@ -421,7 +421,8 @@ class GPT(nn.Module):
             idx = torch.cat((idx, idx_next), dim=1)
 
             # calculate perplexity from final probs, feel free to change as needed
-            ppl += -torch.log2(probs[:, idx_next.squeeze()].diag()) / max_new_tokens
+            # print(probs[:, idx_next.squeeze()].diag())
+            ppl += -torch.log2(probs[:, idx_next.squeeze()].diag()[0]) / max_new_tokens
         ppl = ppl.detach().cpu().numpy()
 
         return idx, ppl
